@@ -10,7 +10,7 @@ This GitHub Action updates the `versionName` in the `build.gradle` file for an A
 
 ### `project_version`
 
-**Required** The new version name of the Android project.
+**Required** The new version name to set in the `build.gradle` file.
 
 ### `github_token`
 
