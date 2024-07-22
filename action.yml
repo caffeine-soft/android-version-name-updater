@@ -1,5 +1,5 @@
-name: 'Update Android Version Code'
-description: 'Increment the versionCode in the build.gradle file for an Android project'
+name: 'Update Android Version Name'
+description: 'Update the versionName in the build.gradle file for an Android project'
 inputs:
   project_name:
     description: 'The name of the Android project directory containing the build.gradle file'
