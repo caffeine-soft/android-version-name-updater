@@ -1,5 +1,7 @@
 name: 'Update Android Version Name'
 description: 'Update the versionName in the build.gradle file for an Android project'
+author: 'Caffeine Software'
+
 inputs:
   project_name:
     description: 'The name of the Android project directory containing the build.gradle file'
