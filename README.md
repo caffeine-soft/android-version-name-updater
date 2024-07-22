@@ -19,7 +19,7 @@ This GitHub Action updates the `versionName` in the `build.gradle` file for an A
 ## Example Usage
 
 ```yaml
-name: Update Version Code
+name: Update Version Name
 
 on:
   push:
@@ -27,14 +27,14 @@ on:
       - master
 
 jobs:
-  update-version-code:
+  update-version-name:
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Update version code
+      - name: Update version name
         uses: your-username/android-version-name-updater@v1
         with:
           project_name: 'app'
