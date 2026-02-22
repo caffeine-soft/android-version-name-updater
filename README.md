@@ -1,16 +1,16 @@
 # Update Android Version Name
 
-This GitHub Action updates the `versionName` in the `build.gradle` file for an Android project.
+This GitHub Action updates the `versionName` and `versionCode` in the `build.gradle` or `build.gradle.kts` file for an Android project.
 
 ## Inputs
 
 ### `project_name`
 
-**Required** The name of the Android project directory containing the `build.gradle` file. Default is `app`.
+**Required** The name of the Android project directory containing the `build.gradle` or `build.gradle.kts` file. Default is `app`.
 
 ### `project_version`
 
-**Required** The new version name to set in the `build.gradle` file.
+**Required** The new version name to set in the `build.gradle` or `build.gradle.kts` file.
 
 ### `github_token`
 
@@ -24,7 +24,7 @@ name: Update Version Name
 on:
   push:
     branches:
-      - master
+      - main
 
 jobs:
   update-version-name:
