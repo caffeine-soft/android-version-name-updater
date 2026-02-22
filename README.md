@@ -35,7 +35,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Update version name
-        uses: your-username/android-version-name-updater@v1
+        uses: caffeine-soft/android-version-name-updater@v1
         with:
           project_name: 'app'
           project_version: '1.0.0'
