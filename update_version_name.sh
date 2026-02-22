@@ -30,12 +30,9 @@ else
   exit 1
 fi
 
-# Unified regex approach for both Groovy and Kotlin DSLs
-# Handles both: versionName "1.0" and versionName = "1.0"
 sed -i -E "s/(versionName[[:space:]]*=?[[:space:]]*)\"[^\"]+\"/\1\"${PROJECT_VERSION#v}\"/" "$BUILD_GRADLE_FILE"
 echo "Updated version name to ${PROJECT_VERSION#v} in $BUILD_GRADLE_FILE"
 
-# Extract old version code safely
 old_version_code=$(grep 'versionCode' "$BUILD_GRADLE_FILE" | head -n 1 | sed -E 's/.*versionCode[[:space:]]*=?[[:space:]]*([0-9]+).*/\1/')
 if [ ! -z "$old_version_code" ]; then
   new_version_code=$((old_version_code + 1))
@@ -43,13 +40,15 @@ if [ ! -z "$old_version_code" ]; then
   echo "Updated version code to $new_version_code"
 fi
 
-git config --global user.name "github-actions[bot]"
-git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
+if [ "$SKIP_GIT" != "true" ]; then
+  git config --global user.name "github-actions[bot]"
+  git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
-git add "$BUILD_GRADLE_FILE"
-git commit -m "Bump version to ${PROJECT_VERSION} [no ci]"
+  git add "$BUILD_GRADLE_FILE"
+  git commit -m "Bump version to ${PROJECT_VERSION} [no ci]"
 
-BRANCH_NAME=${GITHUB_REF#refs/heads/}
+  BRANCH_NAME=${GITHUB_REF#refs/heads/}
 
-REPO_URL="https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
-git push "${REPO_URL}" HEAD:"$BRANCH_NAME"
+  REPO_URL="https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
+  git push "${REPO_URL}" HEAD:"$BRANCH_NAME"
+fi

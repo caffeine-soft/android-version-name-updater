@@ -1,5 +1,6 @@
 #!/bin/bash
 set -e
+export SKIP_GIT=true
 
 SCRIPT_DIR=$(cd "$(dirname "${BASH_SOURCE[0]}")" &> /dev/null && pwd)
 UPDATE_SCRIPT="$SCRIPT_DIR/../update_version_name.sh"
