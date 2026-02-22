@@ -27,14 +27,23 @@ if [ ! -f "$BUILD_GRADLE_FILE" ]; then
   exit 1
 fi
 
-# Update the build.gradle file with the new version name
 sed -i "s/versionName \"[^\"]\+\"/versionName \"${PROJECT_VERSION#v}\"/" "$BUILD_GRADLE_FILE"
-echo "Updated version name in $BUILD_GRADLE_FILE"
+echo "Updated version name to ${PROJECT_VERSION#v} in $BUILD_GRADLE_FILE"
 
-# Commit and push the new version code
+old_version_code=$(grep 'versionCode' "$BUILD_GRADLE_FILE" | awk '{print $2}')
+if [ ! -z "$old_version_code" ]; then
+  new_version_code=$((old_version_code + 1))
+  sed -i "s/versionCode [0-9]\+/versionCode ${new_version_code}/" "$BUILD_GRADLE_FILE"
+  echo "Updated version code to $new_version_code"
+fi
+
+git config --global user.name "github-actions[bot]"
+git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
 git add "$BUILD_GRADLE_FILE"
-git commit -m "Bump version name to ${PROJECT_VERSION}"
+git commit -m "Bump version to ${PROJECT_VERSION} [no ci]"
 
-# Use the GITHUB_TOKEN for authentication
+BRANCH_NAME=${GITHUB_REF#refs/heads/}
+
 REPO_URL="https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
-git push "${REPO_URL}"
+git push "${REPO_URL}" HEAD:"$BRANCH_NAME"
