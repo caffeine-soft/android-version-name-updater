@@ -1,26 +1,26 @@
-name: 'Update Android Version Name'
-description: 'Update the versionName and versionCode in the build.gradle file for an Android project'
-author: 'Caffeine Software'
+name: "Update Android Version Name"
+description: "Update the versionName and versionCode in the build.gradle / build.gradle.kts file for an Android project"
+author: "Caffeine Software"
 
 inputs:
   project_name:
-    description: 'The name of the Android project directory containing the build.gradle file'
+    description: "The name of the Android project directory containing the build.gradle / build.gradle.kts file"
     required: true
-    default: 'app'
+    default: "app"
   project_version:
-    description: 'The new version of the Android project to set in the build.gradle file'
+    description: "The new version of the Android project to set in the build.gradle file"
     required: true
   github_token:
-    description: 'GitHub token for authentication'
+    description: "GitHub token for authentication"
     required: true
 
 runs:
-  using: 'composite'
+  using: "composite"
   steps:
     - name: Update version code
       shell: bash
-      run: ${{ github.action_path }}/update_version_name.sh ${{ inputs.project_name }} ${{ inputs.project_version }} ${{ inputs.github_token }}
-      
+      run: bash ${{ github.action_path }}/update_version_name.sh ${{ inputs.project_name }} ${{ inputs.project_version }} ${{ inputs.github_token }}
+
 branding:
-  icon: 'arrow-up'
-  color: 'green'
+  icon: "arrow-up"
+  color: "green"

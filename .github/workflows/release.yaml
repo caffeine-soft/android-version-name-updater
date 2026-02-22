@@ -2,14 +2,22 @@ name: Create Release
 
 on:
   push:
-    branches: [ main ]
+    branches: [main]
 
 jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run Tests
+        run: bash tests/test_update_version_name.sh
+
   create_release:
+    needs: test
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - name: Bump version and push tag
         id: tag_version
         uses: mathieudutour/github-tag-action@v6.2
@@ -21,3 +29,10 @@ jobs:
           tag: ${{ steps.tag_version.outputs.new_tag }}
           name: Release ${{ steps.tag_version.outputs.new_tag }}
           body: ${{ steps.tag_version.outputs.changelog }}
+      - name: Update Major Tag
+        run: |
+          MAJOR_VERSION=$(echo "${{ steps.tag_version.outputs.new_tag }}" | cut -d. -f1)
+          git config user.name "github-actions"
+          git config user.email "github-actions@github.com"
+          git tag -fa "$MAJOR_VERSION" -m "Update major tag $MAJOR_VERSION"
+          git push origin "$MAJOR_VERSION" --force
